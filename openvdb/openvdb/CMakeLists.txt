@@ -161,8 +161,12 @@ if(USE_LOG4CPLUS)
 endif()
 
 if(USE_BLOSC)
-  # Find Blosc libraries
-  find_package(Blosc ${MINIMUM_BLOSC_VERSION} REQUIRED)
+  # Allow for external blosc
+  if(NOT TARGET Blosc::blosc)
+    # Find Blosc libraries
+    find_package(Blosc ${MINIMUM_BLOSC_VERSION} REQUIRED)
+  endif()
+
   if(Blosc_VERSION)
     if(OPENVDB_FUTURE_DEPRECATION AND FUTURE_MINIMUM_BLOSC_VERSION)
       if(${Blosc_VERSION} VERSION_LESS FUTURE_MINIMUM_BLOSC_VERSION)
